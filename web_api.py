@@ -9,7 +9,7 @@ Deployable to Heroku, Railway, Render, etc.
 import json
 import os
 from pathlib import Path
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
 # Import the existing agent logic
@@ -148,79 +148,7 @@ PERSONAS = {
 @app.route('/')
 def index():
     """Home page with interactive demo"""
-    return render_template_string('''
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Daily Reflection Tree — Web Demo</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .card { background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 20px 0; }
-        .btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
-        .btn:hover { background: #0056b3; }
-        .api-link { background: #28a745; }
-        .endpoint { background: #6c757d; color: white; padding: 5px 10px; border-radius: 3px; font-family: monospace; }
-        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
-    </style>
-</head>
-<body>
-    <h1>🌙 Daily Reflection Tree</h1>
-    <p>A deterministic, LLM-free end-of-day reflection tool based on psychological research.</p>
-    
-    <div class="card">
-        <h2>Try It Out</h2>
-        <button class="btn" onclick="runPersona('victim')">Run Victim Persona</button>
-        <button class="btn" onclick="runPersona('victor')">Run Victor Persona</button>
-        <div id="result" style="margin-top: 20px;"></div>
-    </div>
-    
-    <div class="card">
-        <h2>API Endpoints</h2>
-        <p><span class="endpoint">POST /reflect</span> — Run a reflection session</p>
-        <p><span class="endpoint">GET /tree</span> — Get the full tree structure</p>
-        <p><span class="endpoint">GET /stats</span> — Get tree statistics</p>
-        
-        <h3>Example API Call</h3>
-        <pre>curl -X POST http://localhost:5000/reflect \\
-  -H "Content-Type: application/json" \\
-  -d '{"persona": "victim"}'</pre>
-    </div>
-    
-    <div class="card">
-        <h2>Deployment Options</h2>
-        <ul>
-            <li><strong>Heroku</strong>: One-click deploy with Procfile</li>
-            <li><strong>Railway</strong>: Docker-based deployment</li>
-            <li><strong>Render</strong>: Free tier available</li>
-            <li><strong>PythonAnywhere</strong>: Simple WSGI hosting</li>
-        </ul>
-        <button class="btn api-link" onclick="window.open('https://github.com/yourusername/reflection-tree', '_blank')">View on GitHub</button>
-    </div>
-    
-    <script>
-        async function runPersona(persona) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '<p>Running... <span style="color: #6c757d;">(check console for full output)</span></p>';
-            
-            const response = await fetch('/reflect', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({persona: persona})
-            });
-            
-            const data = await response.json();
-            resultDiv.innerHTML = `
-                <h3>${persona.charAt(0).toUpperCase() + persona.slice(1)} Persona Result</h3>
-                <p><strong>Path:</strong> ${data.path.length} nodes visited</p>
-                <p><strong>Summary:</strong> ${data.summary}</p>
-                <p><strong>Signals:</strong> Axis1=${data.signals.axis1.dominant}, Axis2=${data.signals.axis2.dominant}, Axis3=${data.signals.axis3.dominant}</p>
-                <pre>${JSON.stringify(data, null, 2)}</pre>
-            `;
-        }
-    </script>
-</body>
-</html>
-    ''')
+    return render_template('index.html')
 
 
 @app.route('/reflect', methods=['POST'])

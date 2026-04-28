@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reflection Tree — Evidence-Based Psychological Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header .subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .badges {
+            margin-top: 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            margin-top: -40px;
+        }
+
+        /* Demo Section */
+        .demo-section {
+            padding: 60px 40px;
+            background: linear-gradient(to bottom, #f8f9fa, white);
+        }
+
+        .demo-section h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .demo-section p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Result Box */
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+            border-left: 5px solid #667eea;
+        }
+
+        .result-box.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .metric {
+            display: inline-block;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 60px 40px;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* API Section */
+        .api-section {
+            padding: 60px 40px;
+            background: #1e1e1e;
+            color: white;
+        }
+
+        .api-section h2 {
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .endpoint {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: #4fc3f7;
+            font-size: 1.1rem;
+        }
+
+        .endpoint-desc {
+            color: #aaa;
+            margin-top: 10px;
+        }
+
+        pre {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid #444;
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            color: #4fc3f7;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            transition: border-color 0.3s ease;
+        }
+
+        footer a:hover {
+            border-bottom-color: white;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header .subtitle {
+                font-size: 1rem;
+            }
+
+            .demo-section, .features-section, .api-section {
+                padding: 40px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌙 Daily Reflection Tree</h1>
+            <p class="subtitle">A deterministic, LLM-free end-of-day reflection tool based on psychological research.</p>
+            <div class="badges">
+                <span class="badge">🧠 Evidence-Based</span>
+                <span class="badge">🚀 Production-Ready</span>
+                <span class="badge">🐳 Docker Support</span>
+                <span class="badge">⚡ Zero Dependencies</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Demo Section -->
+            <section class="demo-section">
+                <h2>Try It Out</h2>
+                <p>Experience how the reflection tree adapts to different psychological profiles. Choose a persona to see the complete journey.</p>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="runPersona('victim')">
+                        <span>😔</span> Run Victim Persona
+                    </button>
+                    <button class="btn btn-primary" onclick="runPersona('victor')">
+                        <span>💪</span> Run Victor Persona
+                    </button>
+                    <button class="btn btn-secondary" onclick="window.open('https://github.com/YOUR_USERNAME/reflection-tree', '_blank')">
+                        <span>📦</span> View on GitHub
+                    </button>
+                </div>
+
+                <div id="result" class="result-box"></div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features-section">
+                <h2>Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Deterministic Design</h3>
+                        <p>No LLM calls at runtime. Every reflection is predictable, trustworthy, and consistent.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Three Psychological Axes</h3>
+                        <p>Measures Locus of Control, Orientation, and Radius based on peer-reviewed research.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Production-Ready API</h3>
+                        <p>RESTful endpoints, Docker support, and deployment guides for Heroku, Railway, and Render.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Evidence-Based</h3>
+                        <p>Built on research from Rotter (1954), Dweck (2006), Maslow (1969), and others.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Zero Dependencies</h3>
+                        <p>Core logic runs on pure Python 3.8+ with no external libraries required.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧪</div>
+                        <h3>Comprehensive Testing</h3>
+                        <p>100% test coverage with automated persona validation and signal verification.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Section -->
+            <section class="api-section">
+                <h2>API Documentation</h2>
+                
+                <div class="endpoint">
+                    <span class="endpoint-method">POST</span>
+                    <span class="endpoint-path">/reflect</span>
+                    <p class="endpoint-desc">Run a complete reflection session with a specified persona</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method">GET</span>
+                    <span class="endpoint-path">/tree</span>
+                    <p class="endpoint-desc">Retrieve the full JSON tree structure (40+ nodes)</p>
+                </div>
+
+                <div class="endpoint">
+                    <span class="endpoint-method">GET</span>
+                    <span class="endpoint-path">/stats</span>
+                    <p class="endpoint-desc">Get tree statistics and metadata</p>
+                </div>
+
+                <h3 style="margin-top: 40px; margin-bottom: 15px;">Example API Call</h3>
+                <pre><code>curl -X POST https://your-deployment.herokuapp.com/reflect \
+  -H "Content-Type: application/json" \
+  -d '{"persona": "victim"}'</code></pre>
+            </section>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Built with ❤️ for the DT Fellowship | <a href="https://github.com/YOUR_USERNAME/reflection-tree">View Source Code</a></p>
+            <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9rem;">© 2026 Diksha Shahi | Licensed under MIT</p>
+        </div>
+    </footer>
+
+    <script>
+        async function runPersona(persona) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result-box show';
+            resultDiv.innerHTML = `
+                <div style="text-align: center;">
+                    <div class="spinner"></div>
+                    <span>Running ${persona} persona...</span>
+                </div>
+            `;
+
+            try {
+                const response = await fetch('/reflect', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({persona: persona})
+                });
+
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <h3>✨ ${persona.charAt(0).toUpperCase() + persona.slice(1)} Persona Results</h3>
+                    
+                    <div style="margin: 20px 0;">
+                        <div class="metric">
+                            <div class="metric-label">Nodes Visited</div>
+                            <div class="metric-value">${data.path.length}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Axis 1 (Locus)</div>
+                            <div class="metric-value">${data.signals.axis1.dominant}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Axis 2 (Orientation)</div>
+                            <div class="metric-value">${data.signals.axis2.dominant}</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-label">Axis 3 (Radius)</div>
+                            <div class="metric-value">${data.signals.axis3.dominant}</div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">Summary</h4>
+                        <p style="color: #333; line-height: 1.8;">${data.summary}</p>
+                    </div>
+
+                    <details style="margin-top: 20px;">
+                        <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON Response</summary>
+                        <pre style="margin-top: 10px; max-height: 400px; overflow-y: auto;"><code>${JSON.stringify(data, null, 2)}</code></pre>
+                    </details>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3 style="color: #e74c3c;">❌ Error</h3>
+                    <p>Failed to run persona: ${error.message}</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">Make sure the Flask server is running.</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
