@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Reflection Tree — Interactive Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Card */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+        }
+
+        /* Question */
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .option:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option:active {
+            transform: scale(0.98);
+        }
+
+        /* Reflection */
+        .reflection {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 5px solid #667eea;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .reflection-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .reflection-text {
+            font-size: 1.1rem;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        /* Bridge */
+        .bridge {
+            text-align: center;
+            color: #764ba2;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 30px 0;
+            padding: 20px;
+        }
+
+        /* Summary */
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .summary h2 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .summary-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .axis-breakdown {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .axis-item {
+            margin: 10px 0;
+            font-size: 1rem;
+        }
+
+        .axis-label {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .axis-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Button */
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Progress */
+        .progress {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: white;
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 25px;
+            }
+            .question-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌙 Daily Reflection Tree</h1>
+            <p>Take a few minutes to reflect on your day</p>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <div class="card" id="contentCard">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading reflection tree...</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/" style="color: white; text-decoration: none; opacity: 0.8;">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let tree = null;
+        let currentNodeId = 'START';
+        let state = {
+            answers: {},
+            signals: {
+                axis1_internal: 0,
+                axis1_external: 0,
+                axis2_contribution: 0,
+                axis2_entitlement: 0,
+                axis3_self: 0,
+                axis3_collective: 0,
+                axis3_transcendent: 0
+            },
+            nodeCount: 0,
+            totalNodes: 40
+        };
+
+        // Load tree on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('/tree?api_key=demo-key-12345');
+                const data = await response.json();
+                tree = data.nodes.reduce((acc, node) => {
+                    acc[node.id] = node;
+                    return acc;
+                }, {});
+                state.totalNodes = data.nodes.length;
+                
+                // Start the reflection
+                showNode(currentNodeId);
+            } catch (error) {
+                document.getElementById('contentCard').innerHTML = `
+                    <div style="text-align: center; color: #e74c3c;">
+                        <h2>❌ Error Loading Tree</h2>
+                        <p>Could not load the reflection tree. Please make sure the server is running.</p>
+                        <button class="btn btn-secondary" onclick="location.reload()">Retry</button>
+                    </div>
+                `;
+            }
+        });
+
+        function showNode(nodeId) {
+            const node = tree[nodeId];
+            if (!node) {
+                console.error('Node not found:', nodeId);
+                return;
+            }
+
+            state.nodeCount++;
+            updateProgress();
+
+            const card = document.getElementById('contentCard');
+            
+            switch (node.type) {
+                case 'start':
+                    card.innerHTML = `
+                        <div style="text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">🌙</div>
+                            <p style="font-size: 1.2rem; color: #666; line-height: 1.8;">${interpolate(node.text)}</p>
+                            <button class="btn" onclick="nextNode()">Begin Reflection</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'question':
+                    card.innerHTML = `
+                        <div class="question-text">${interpolate(node.text)}</div>
+                        <div class="options">
+                            ${node.options.map((opt, i) => `
+                                <div class="option" onclick="selectOption('${node.id}', '${opt.replace(/'/g, "\\'")}', '${node.signal || ''}')">
+                                    <strong>${i + 1}.</strong> ${opt}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+
+                case 'reflection':
+                    card.innerHTML = `
+                        <div class="reflection">
+                            <div class="reflection-icon">💡</div>
+                            <div class="reflection-text">${interpolate(node.text)}</div>
+                        </div>
+                        <button class="btn" onclick="nextNode()">Continue</button>
+                    `;
+                    recordSignal(node.signal);
+                    break;
+
+                case 'bridge':
+                    card.innerHTML = `
+                        <div class="bridge">
+                            <div style="margin-bottom: 15px;">· · ·</div>
+                            <div>${interpolate(node.text)}</div>
+                            <div style="margin-top: 15px;">· · ·</div>
+                        </div>
+                        <button class="btn" onclick="nextNode()">Continue</button>
+                    `;
+                    break;
+
+                case 'summary':
+                    showSummary(node);
+                    break;
+
+                case 'end':
+                    card.innerHTML = `
+                        <div style="text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 20px;">✨</div>
+                            <p style="font-size: 1.2rem; color: #666;">${node.text}</p>
+                            <button class="btn btn-secondary" onclick="location.reload()">Start New Reflection</button>
+                            <button class="btn" onclick="window.location.href='/'">Back to Home</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'decision':
+                    // Decision nodes are invisible - auto-advance
+                    nextNode();
+                    break;
+            }
+        }
+
+        function selectOption(nodeId, answer, signal) {
+            state.answers[nodeId] = answer;
+            recordSignal(signal);
+            nextNode();
+        }
+
+        function recordSignal(signal) {
+            if (!signal) return;
+            const key = signal.replace(':', '_');
+            if (state.signals[key] !== undefined) {
+                state.signals[key]++;
+            }
+        }
+
+        function nextNode() {
+            const node = tree[currentNodeId];
+            
+            // Check for explicit target
+            if (node.target) {
+                currentNodeId = node.target;
+                showNode(currentNodeId);
+                return;
+            }
+
+            // Check bridge targets
+            const bridgeTargets = {
+                "A1_R_INTERNAL": "BRIDGE_1_2",
+                "A1_R_NOTICING": "BRIDGE_1_2",
+                "A1_R_EXTERNAL": "BRIDGE_1_2",
+                "A2_R_CONTRIBUTION": "BRIDGE_2_3",
+                "A2_R_NEUTRAL": "BRIDGE_2_3",
+                "A2_R_ENTITLEMENT": "BRIDGE_2_3",
+                "A3_R_SELF": "SUMMARY",
+                "A3_R_AWARE": "SUMMARY",
+                "A3_R_COLLECTIVE": "SUMMARY",
+                "A3_R_TRANSCENDENT": "SUMMARY"
+            };
+            
+            if (bridgeTargets[currentNodeId]) {
+                currentNodeId = bridgeTargets[currentNodeId];
+                showNode(currentNodeId);
+                return;
+            }
+
+            // Decision node routing
+            if (node.type === 'decision') {
+                const lastAnswer = getLastAnswer(node);
+                for (const opt of node.options) {
+                    if (opt.condition === 'always') {
+                        currentNodeId = opt.target;
+                        showNode(currentNodeId);
+                        return;
+                    }
+                    if (opt.condition.startsWith('answer=')) {
+                        const values = opt.condition.substring(7).split('|');
+                        if (values.includes(lastAnswer)) {
+                            currentNodeId = opt.target;
+                            showNode(currentNodeId);
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Find first child
+            const children = Object.values(tree).filter(n => n.parentId === currentNodeId);
+            if (children.length > 0) {
+                currentNodeId = children[0].id;
+                showNode(currentNodeId);
+            }
+        }
+
+        function getLastAnswer(decisionNode) {
+            const parentId = decisionNode.parentId;
+            if (parentId && state.answers[parentId]) {
+                return state.answers[parentId];
+            }
+            const answers = Object.values(state.answers);
+            return answers[answers.length - 1] || '';
+        }
+
+        function interpolate(text) {
+            if (!text) return '';
+            let result = text;
+            for (const [nodeId, answer] of Object.entries(state.answers)) {
+                result = result.replace(`{${nodeId}.answer}`, answer);
+            }
+            return result;
+        }
+
+        function getDominant(axis) {
+            if (axis === 'axis1') {
+                return state.signals.axis1_internal >= state.signals.axis1_external ? 'internal' : 'external';
+            }
+            if (axis === 'axis2') {
+                return state.signals.axis2_contribution >= state.signals.axis2_entitlement ? 'contribution' : 'entitlement';
+            }
+            if (axis === 'axis3') {
+                const counts = {
+                    self: state.signals.axis3_self,
+                    collective: state.signals.axis3_collective,
+                    transcendent: state.signals.axis3_transcendent
+                };
+                return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+            }
+        }
+
+        function showSummary(node) {
+            const summaryMap = node.summary_map;
+            let text = node.text;
+            
+            // Interpolate answers
+            for (const [nodeId, answer] of Object.entries(state.answers)) {
+                text = text.replace(`{${nodeId}.answer}`, answer);
+            }
+            
+            // Interpolate axes
+            for (const axis of ['axis1', 'axis2', 'axis3']) {
+                const dom = getDominant(axis);
+                text = text.replace(`{${axis}.dominant}`, dom);
+                if (summaryMap[axis] && summaryMap[axis][dom]) {
+                    text = text.replace(`{${axis}.summary}`, summaryMap[axis][dom]);
+                }
+            }
+
+            const card = document.getElementById('contentCard');
+            card.innerHTML = `
+                <div class="summary">
+                    <h2>📊 Today's Reflection Summary</h2>
+                    <div class="summary-text">${text}</div>
+                    <div class="axis-breakdown">
+                        <div class="axis-item">
+                            <span class="axis-label">Axis 1 — Locus:</span>
+                            <span class="axis-value">${getDominant('axis1')}</span>
+                            (${state.signals.axis1_internal + state.signals.axis1_external} signals)
+                        </div>
+                        <div class="axis-item">
+                            <span class="axis-label">Axis 2 — Orientation:</span>
+                            <span class="axis-value">${getDominant('axis2')}</span>
+                            (${state.signals.axis2_contribution + state.signals.axis2_entitlement} signals)
+                        </div>
+                        <div class="axis-item">
+                            <span class="axis-label">Axis 3 — Radius:</span>
+                            <span class="axis-value">${getDominant('axis3')}</span>
+                            (${state.signals.axis3_self + state.signals.axis3_collective + state.signals.axis3_transcendent} signals)
+                        </div>
+                    </div>
+                    <button class="btn" style="background: white; color: #667eea; margin-top: 20px;" onclick="nextNode()">Continue</button>
+                </div>
+            `;
+        }
+
+        function updateProgress() {
+            const progress = (state.nodeCount / state.totalNodes) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+    </script>
+</body>
+</html>
