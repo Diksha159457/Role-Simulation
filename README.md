@@ -107,6 +107,25 @@ python agent.py --tree /path/to/your-tree.json
 python agent.py --auto-path victim --save-transcript my-transcript.md
 ```
 
+### Web API mode (new!)
+```bash
+# Start Flask web server
+python web_api.py
+
+# Then visit http://localhost:5000 in browser
+# Or use curl:
+curl -X POST http://localhost:5000/reflect \
+  -H "Content-Type: application/json" \
+  -d '{"persona": "victim"}'
+```
+
+### Docker deployment
+```bash
+# Build and run
+docker build -t reflection-tree .
+docker run -p 5000:5000 reflection-tree
+```
+
 ---
 
 ## Design Philosophy
