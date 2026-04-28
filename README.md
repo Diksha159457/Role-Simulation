@@ -100,44 +100,69 @@ docker run -p 5000:5000 reflection-tree
 
 ## 🌐 API Documentation
 
+### Authentication
+
+All API endpoints require an API key for security.
+
+**Default API Key:** `demo-key-12345`
+
+**Set Custom Key:**
+```bash
+export API_KEY=your-secret-key-here
+python web_api.py
+```
+
 ### Base URL
 `http://localhost:5000` (local) or your deployed URL
 
 ### Endpoints
 
 #### `GET /`
-Interactive web interface with demo
+Interactive web interface (no auth required)
 
-#### `POST /reflect`
-Run a complete reflection session
+#### `GET /tree`
+Get the full JSON tree structure (40+ nodes)
 
-**Request:**
-```json
-{
-  "persona": "victim"  // or "victor"
-}
+**Authentication:** Required
+
+**Example:**
+```bash
+# Using header
+curl http://localhost:5000/tree \
+  -H "X-API-Key: demo-key-12345"
+
+# Using query parameter
+curl "http://localhost:5000/tree?api_key=demo-key-12345"
+```
+
+#### `GET /stats`
+Get tree statistics and metadata
+
+**Authentication:** Required
+
+**Example:**
+```bash
+curl http://localhost:5000/stats \
+  -H "X-API-Key: demo-key-12345"
 ```
 
 **Response:**
 ```json
 {
-  "persona": "victim",
-  "summary": "Today's reflection: You described the day as 'Stormy — things went sideways'...",
-  "signals": {
-    "axis1": {"dominant": "external", "counts": {"internal": 0, "external": 2}},
-    "axis2": {"dominant": "entitlement", "counts": {"contribution": 0, "entitlement": 2}},
-    "axis3": {"dominant": "self", "counts": {"self": 2, "collective": 0, "transcendent": 0}}
+  "total_nodes": 40,
+  "node_counts": {
+    "start": 1,
+    "question": 11,
+    "decision": 10,
+    "reflection": 8,
+    "bridge": 2,
+    "summary": 1,
+    "end": 1
   },
-  "path": [...],
-  "answers": {...}
+  "axes": ["locus", "orientation", "radius"],
+  "description": "An end-of-day deterministic reflection tool..."
 }
 ```
-
-#### `GET /tree`
-Get the full JSON tree structure (40+ nodes)
-
-#### `GET /stats`
-Get tree statistics and metadata
 
 ---
 
@@ -174,6 +199,13 @@ railway up
 - **8 reflection nodes** with non-moralizing feedback
 - **<100ms** API response time
 - **100% test coverage** for core logic
+- **🔐 API key authentication** for secure access
+
+### Security Features
+- **API Key Authentication**: All endpoints protected with API key
+- **Environment-based Configuration**: Secure key management via environment variables
+- **Flexible Auth Methods**: Support for both header and query parameter authentication
+- **Clear Error Messages**: Helpful 401/403 responses for debugging
 
 ### Bug Fixes & Improvements
 1. **Text Wrapping** — Fixed multi-line question display with proper `│` prefix

@@ -17,6 +17,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .container {
@@ -44,11 +45,10 @@
             font-weight: 300;
             opacity: 0.95;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 0 auto 30px;
         }
 
         .badges {
-            margin-top: 30px;
             display: flex;
             gap: 10px;
             justify-content: center;
@@ -73,118 +73,49 @@
             margin-top: -40px;
         }
 
-        /* Demo Section */
-        .demo-section {
+        /* Info Section */
+        .info-section {
             padding: 60px 40px;
             background: linear-gradient(to bottom, #f8f9fa, white);
         }
 
-        .demo-section h2 {
+        .info-section h2 {
             font-size: 2rem;
             margin-bottom: 15px;
             color: #667eea;
         }
 
-        .demo-section p {
+        .info-section p {
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 1.1rem;
         }
 
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-
-        .btn-secondary:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        /* Result Box */
-        .result-box {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
             margin-top: 30px;
-            display: none;
-            border-left: 5px solid #667eea;
         }
 
-        .result-box.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result-box h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .metric {
-            display: inline-block;
+        .info-card {
             background: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            margin: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
         }
 
-        .metric-label {
-            font-size: 0.85rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .metric-value {
-            font-size: 1.2rem;
-            font-weight: 700;
+        .info-card h3 {
             color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .info-card p {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
         }
 
         /* Features Section */
@@ -193,11 +124,17 @@
             background: white;
         }
 
+        .features-section h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #667eea;
+            text-align: center;
+        }
+
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-top: 40px;
         }
 
         .feature-card {
@@ -238,6 +175,7 @@
         .api-section h2 {
             color: white;
             margin-bottom: 30px;
+            text-align: center;
         }
 
         .endpoint {
@@ -285,6 +223,29 @@
             font-size: 0.9rem;
         }
 
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 40px;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -304,23 +265,6 @@
             border-bottom-color: white;
         }
 
-        /* Loading Spinner */
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             header h1 {
@@ -331,17 +275,8 @@
                 font-size: 1rem;
             }
 
-            .demo-section, .features-section, .api-section {
+            .info-section, .features-section, .api-section {
                 padding: 40px 20px;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
             }
         }
     </style>
@@ -362,24 +297,31 @@
 
     <div class="container">
         <div class="main-content">
-            <!-- Demo Section -->
-            <section class="demo-section">
-                <h2>Try It Out</h2>
-                <p>Experience how the reflection tree adapts to different psychological profiles. Choose a persona to see the complete journey.</p>
+            <!-- Info Section -->
+            <section class="info-section">
+                <h2>About This Project</h2>
+                <p>This tool walks employees through three evidence-based psychological axes to help them reflect on their day.</p>
                 
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="runPersona('victim')">
-                        <span>😔</span> Run Victim Persona
-                    </button>
-                    <button class="btn btn-primary" onclick="runPersona('victor')">
-                        <span>💪</span> Run Victor Persona
-                    </button>
-                    <button class="btn btn-secondary" onclick="window.open('https://github.com/Diksha159457/Role-Simulation', '_blank')">
-                        <span>📦</span> View on GitHub
-                    </button>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>🎯 Axis 1: Locus of Control</h3>
+                        <p>Measures whether you attribute outcomes to internal agency or external forces (Rotter, 1954)</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>💡 Axis 2: Orientation</h3>
+                        <p>Distinguishes between entitlement and contribution mindsets (Campbell et al., 2004)</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🌍 Axis 3: Radius</h3>
+                        <p>Maps perspective from self-centric to transcendent (Maslow, 1969)</p>
+                    </div>
                 </div>
 
-                <div id="result" class="result-box"></div>
+                <div class="cta-section">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">Try It Yourself</h3>
+                    <p style="color: #666; margin-bottom: 20px;">Run the CLI tool locally to experience the full reflection journey</p>
+                    <pre style="background: #f8f9fa; color: #333; padding: 15px; border-radius: 8px; display: inline-block;"><code>python agent/agent.py</code></pre>
+                </div>
             </section>
 
             <!-- Features Section -->
@@ -393,13 +335,13 @@
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📊</div>
-                        <h3>Three Psychological Axes</h3>
-                        <p>Measures Locus of Control, Orientation, and Radius based on peer-reviewed research.</p>
+                        <h3>40-Node Decision Tree</h3>
+                        <p>Comprehensive branching logic with 11 questions, 8 reflections, and personalized summaries.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔧</div>
-                        <h3>Production-Ready API</h3>
-                        <p>RESTful endpoints, Docker support, and deployment guides for Heroku, Railway, and Render.</p>
+                        <h3>Production-Ready</h3>
+                        <p>REST API, Docker support, and deployment guides for Heroku, Railway, and Render.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📚</div>
@@ -423,10 +365,11 @@
             <section class="api-section">
                 <h2>API Documentation</h2>
                 
-                <div class="endpoint">
-                    <span class="endpoint-method">POST</span>
-                    <span class="endpoint-path">/reflect</span>
-                    <p class="endpoint-desc">Run a complete reflection session with a specified persona</p>
+                <div style="background: #2d2d2d; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 4px solid #f39c12;">
+                    <h3 style="color: #f39c12; margin-bottom: 10px;">🔐 Authentication Required</h3>
+                    <p style="color: #aaa;">All API endpoints require an API key for authentication.</p>
+                    <p style="color: #4fc3f7; margin-top: 10px;">Default API Key: <code style="background: #1e1e1e; padding: 5px 10px; border-radius: 5px;">demo-key-12345</code></p>
+                    <p style="color: #aaa; font-size: 0.9rem; margin-top: 10px;">Set custom key via environment variable: <code style="background: #1e1e1e; padding: 3px 8px; border-radius: 3px;">API_KEY=your-secret-key</code></p>
                 </div>
 
                 <div class="endpoint">
@@ -441,10 +384,22 @@
                     <p class="endpoint-desc">Get tree statistics and metadata</p>
                 </div>
 
-                <h3 style="margin-top: 40px; margin-bottom: 15px;">Example API Call</h3>
-                <pre><code>curl -X POST https://your-deployment.herokuapp.com/reflect \
-  -H "Content-Type: application/json" \
-  -d '{"persona": "victim"}'</code></pre>
+                <h3 style="margin-top: 40px; margin-bottom: 15px;">Example: Using API Key in Header</h3>
+                <pre><code>curl http://localhost:5000/tree \
+  -H "X-API-Key: demo-key-12345"</code></pre>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px;">Example: Using API Key in Query Parameter</h3>
+                <pre><code>curl "http://localhost:5000/stats?api_key=demo-key-12345"</code></pre>
+
+                <h3 style="margin-top: 30px; margin-bottom: 15px;">Example: Unauthorized Request (No API Key)</h3>
+                <pre><code>curl http://localhost:5000/tree
+# Returns: {"error": "API key required", "message": "..."}</code></pre>
+
+                <div class="cta-section">
+                    <a href="https://github.com/Diksha159457/Role-Simulation" class="btn" target="_blank">📦 View on GitHub</a>
+                    <a href="/tree?api_key=demo-key-12345" class="btn">📊 View Tree JSON</a>
+                    <a href="/stats?api_key=demo-key-12345" class="btn">📈 View Statistics</a>
+                </div>
             </section>
         </div>
     </div>
@@ -455,67 +410,5 @@
             <p style="margin-top: 10px; opacity: 0.8; font-size: 0.9rem;">© 2026 Diksha Shahi | Licensed under MIT</p>
         </div>
     </footer>
-
-    <script>
-        async function runPersona(persona) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.className = 'result-box show';
-            resultDiv.innerHTML = `
-                <div style="text-align: center;">
-                    <div class="spinner"></div>
-                    <span>Running ${persona} persona...</span>
-                </div>
-            `;
-
-            try {
-                const response = await fetch('/reflect', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({persona: persona})
-                });
-
-                const data = await response.json();
-                
-                resultDiv.innerHTML = `
-                    <h3>✨ ${persona.charAt(0).toUpperCase() + persona.slice(1)} Persona Results</h3>
-                    
-                    <div style="margin: 20px 0;">
-                        <div class="metric">
-                            <div class="metric-label">Nodes Visited</div>
-                            <div class="metric-value">${data.path.length}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Axis 1 (Locus)</div>
-                            <div class="metric-value">${data.signals.axis1.dominant}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Axis 2 (Orientation)</div>
-                            <div class="metric-value">${data.signals.axis2.dominant}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Axis 3 (Radius)</div>
-                            <div class="metric-value">${data.signals.axis3.dominant}</div>
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                        <h4 style="color: #667eea; margin-bottom: 10px;">Summary</h4>
-                        <p style="color: #333; line-height: 1.8;">${data.summary}</p>
-                    </div>
-
-                    <details style="margin-top: 20px;">
-                        <summary style="cursor: pointer; font-weight: 600; color: #667eea;">View Full JSON Response</summary>
-                        <pre style="margin-top: 10px; max-height: 400px; overflow-y: auto;"><code>${JSON.stringify(data, null, 2)}</code></pre>
-                    </details>
-                `;
-            } catch (error) {
-                resultDiv.innerHTML = `
-                    <h3 style="color: #e74c3c;">❌ Error</h3>
-                    <p>Failed to run persona: ${error.message}</p>
-                    <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">Make sure the Flask server is running.</p>
-                `;
-            }
-        }
-    </script>
 </body>
 </html>

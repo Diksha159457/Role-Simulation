@@ -9,12 +9,38 @@ Deployable to Heroku, Railway, Render, etc.
 import json
 import os
 from pathlib import Path
+from functools import wraps
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 
 # Import the existing agent logic
 import sys
 sys.path.append('.')
+
+# API Key Configuration
+API_KEY = os.environ.get('API_KEY', 'demo-key-12345')  # Change this in production!
+
+def require_api_key(f):
+    """Decorator to require API key for endpoints"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Get API key from header or query parameter
+        api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+        
+        if not api_key:
+            return jsonify({
+                'error': 'API key required',
+                'message': 'Please provide an API key via X-API-Key header or api_key query parameter'
+            }), 401
+        
+        if api_key != API_KEY:
+            return jsonify({
+                'error': 'Invalid API key',
+                'message': 'The provided API key is not valid'
+            }), 403
+        
+        return f(*args, **kwargs)
+    return decorated_function
 
 # We'll reuse the Tree and State classes from agent.py
 # For simplicity, I'll copy the core logic here
@@ -152,6 +178,7 @@ def index():
 
 
 @app.route('/reflect', methods=['POST'])
+@require_api_key
 def reflect():
     """Run a reflection session"""
     data = request.json or {}
@@ -211,6 +238,7 @@ def reflect():
 
 
 @app.route('/tree')
+@require_api_key
 def get_tree():
     """Return the full tree structure"""
     with open("tree/reflection-tree.json") as f:
@@ -219,6 +247,7 @@ def get_tree():
 
 
 @app.route('/stats')
+@require_api_key
 def get_stats():
     """Get tree statistics"""
     with open("tree/reflection-tree.json") as f:
